@@ -149,8 +149,23 @@ Your app will be available at [http://localhost:8080](http://localhost:8080).
   ```sh
   docker build \
     --build-arg VITE_N8N_ENDPOINT=https://your-n8n-endpoint \
-    --build-arg VITE_N8N_USERNAME=your_username \
-    --build-arg VITE_N8N_PASSWORD=your_password \
+    --build-arg VITE_N8N_USERNAME=your_n8n_workflow_username \
+    --build-arg VITE_N8N_PASSWORD=your_n8n_workflow_password \
+    --build-arg VITE_USERNAME=your_app_username \
+    --build-arg VITE_PASSWORD=your_app_password \
     -t recipe-generator .
   ```
 - Vite will only pick up environment variables at build time, not at runtime.
+
+## Authentication (Username & Password)
+
+To require a username and password for access, set the following environment variables before building or running the app:
+
+```
+VITE_USERNAME=yourusername
+VITE_PASSWORD=yourpassword
+```
+
+These can be set in a `.env` file at the project root, or in your deployment environment. The sign-in page will use these credentials.
+
+**Note:** For real security, use a backend. This method is only for simple gating, as credentials are visible in the built frontend.
