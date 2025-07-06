@@ -1,6 +1,6 @@
 # Recipe Generator
 
-A modern, production-ready Vite + React + TypeScript app for generating and displaying recipes using AI.
+A modern, production-ready Vite + React + TypeScript app for generating and displaying recipes using LLMs.
 
 ## Features
 
@@ -12,7 +12,9 @@ A modern, production-ready Vite + React + TypeScript app for generating and disp
 
 ![n8n Recipe Generation Workflow](./images/n8n-workflow.png)
 
-This project uses an n8n workflow to generate recipes dynamically. Here's a brief explanation of each component in the workflow:
+This project uses an n8n workflow to generate recipes dynamically.
+
+Here's a brief explanation of each component in the workflow:
 
 - **Webhook**: Receives POST requests from the frontend with user preferences (ingredients, cuisine, etc.).
 - **Parse Input**: Processes and validates the incoming data.
