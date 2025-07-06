@@ -1,73 +1,154 @@
-# Welcome to your Lovable project
+# Recipe Generator
 
-## Project info
+A modern, production-ready Vite + React + TypeScript app for generating and displaying recipes using AI.
 
-**URL**: https://lovable.dev/projects/85e6da59-3a64-4279-b9da-e0c953e524c9
+## Features
 
-## How can I edit this code?
+- Beautiful UI with Tailwind CSS and shadcn/ui
+- Recipe generation via n8n endpoint (configurable)
+- Docker-ready for easy deployment
 
-There are several ways of editing your application.
+## Workflow Overview - n8n
 
-**Use Lovable**
+![n8n Recipe Generation Workflow](./images/n8n-workflow.png)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/85e6da59-3a64-4279-b9da-e0c953e524c9) and start prompting.
+This project uses an n8n workflow to generate recipes dynamically. Here's a brief explanation of each component in the workflow:
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Webhook**: Receives POST requests from the frontend with user preferences (ingredients, cuisine, etc.).
+- **Parse Input**: Processes and validates the incoming data.
+- **Generate Prompt**: Constructs a prompt for the AI model based on the user's input.
+- **Prompt Settings**: Manages the AI model and output parser settings.
+  - **Anthropic Chat Model**: The AI model (e.g., Claude) that generates the recipe content.
+  - **Structured Output Parser**: Ensures the AI output is structured as valid JSON.
+- **Final Recipe Output**: Formats and returns the final recipe JSON to the frontend.
 
-**Use your preferred IDE**
+## Example n8n Response JSON
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The n8n flow should return a JSON object in the following format:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```json
+{
+  "recipe": {
+    "name": "Honey-Glazed Chicken Teriyaki Bowl with Five-Spice Fried Rice",
+    "description": "A vibrant Asian-inspired bowl featuring succulent honey-glazed chicken breast with a gluten-free teriyaki sauce, served over fragrant five-spice fried rice with crisp vegetables. This restaurant-quality dish combines sweet, umami, and aromatic flavors in perfect harmony.",
+    "cuisine": "Asian",
+    "difficulty": "Medium",
+    "prepTime": "15 minutes",
+    "cookTime": "15 minutes",
+    "totalTime": "30 minutes",
+    "servings": 4,
+    "ingredients": [
+      {
+        "item": "chicken breast",
+        "amount": "600g",
+        "notes": "cut into 2cm cubes"
+      },
+      {
+        "item": "jasmine rice",
+        "amount": "300g",
+        "notes": "cooked and cooled (preferably day-old)"
+      },
+      {
+        "item": "mixed vegetables",
+        "amount": "400g",
+        "notes": "bell peppers, carrots, snap peas, and broccoli, cut into bite-sized pieces"
+      }
+      // ... more ingredients ...
+    ],
+    "instructions": [
+      {
+        "step": 1,
+        "instruction": "In a small bowl, whisk together ...",
+        "time": "2 minutes"
+      },
+      {
+        "step": 2,
+        "instruction": "Heat a large wok ...",
+        "time": "2 minutes",
+        "temperature": "high heat"
+      }
+      // ... more steps ...
+    ],
+    "nutrition": {
+      "calories": "485 per serving",
+      "highlights": [
+        "High in lean protein from chicken breast",
+        "Rich in vitamins and fiber from mixed vegetables",
+        "Provides complex carbohydrates from rice",
+        "Contains healthy fats from sesame oil"
+      ]
+    },
+    "tips": [
+      "Use day-old rice for the best fried rice texture - fresh rice can become mushy",
+      "Keep the wok smoking hot throughout cooking for authentic wok hei (breath of the wok) flavor"
+      // ... more tips ...
+    ],
+    "tags": [
+      "gluten-free",
+      "quick",
+      "healthy",
+      "high-protein",
+      "one-pan",
+      "Asian-inspired",
+      "family-friendly"
+    ]
+  },
+  "success": true,
+  "timestamp": "2025-07-06T12:23:34.921Z"
+}
 ```
 
-**Edit a file directly in GitHub**
+## Getting Started
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Local Development
 
-**Use GitHub Codespaces**
+1. Install dependencies:
+   ```sh
+   npm install
+   ```
+2. Create a `.env` file in the project root with your API credentials:
+   ```env
+   VITE_N8N_ENDPOINT=https://your-n8n-endpoint
+   VITE_N8N_USERNAME=your_username
+   VITE_N8N_PASSWORD=your_password
+   ```
+3. Start the dev server:
+   ```sh
+   npm run dev
+   ```
+4. Visit [http://localhost:8080](http://localhost:8080)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Production Build
 
-## What technologies are used for this project?
+```sh
+npm run build
+npm run preview
+```
 
-This project is built with:
+## Docker Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### 1. Build the Docker image
 
-## How can I deploy this project?
+```sh
+docker build -t recipe-generator .
+```
 
-Simply open [Lovable](https://lovable.dev/projects/85e6da59-3a64-4279-b9da-e0c953e524c9) and click on Share -> Publish.
+### 2. Run the Docker container
 
-## Can I connect a custom domain to my Lovable project?
+```sh
+docker run -p 8080:80 recipe-generator
+```
 
-Yes, you can!
+Your app will be available at [http://localhost:8080](http://localhost:8080).
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### 3. Environment Variables
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- Set your Vite environment variables in a `.env` file before building, or pass them as build arguments:
+  ```sh
+  docker build \
+    --build-arg VITE_N8N_ENDPOINT=https://your-n8n-endpoint \
+    --build-arg VITE_N8N_USERNAME=your_username \
+    --build-arg VITE_N8N_PASSWORD=your_password \
+    -t recipe-generator .
+  ```
+- Vite will only pick up environment variables at build time, not at runtime.

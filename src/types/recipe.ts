@@ -1,20 +1,47 @@
-
 export interface RecipeFormData {
-  ingredients: string[];
-  cuisine_type: string;
-  dietary_restrictions: string[];
-  cooking_time: string;
-  meal_type: string;
+  ingredients: string;
+  cuisineType: string;
+  dietaryRestrictions: string;
+  cookingTime: string;
+  mealType: string;
+}
+
+export interface Ingredient {
+  item: string;
+  amount: string;
+  notes?: string;
+}
+
+export interface Instruction {
+  step: number;
+  instruction: string;
+  time: string;
+  temperature?: string;
+}
+
+export interface Nutrition {
+  calories: string;
+  highlights: string[];
 }
 
 export interface Recipe {
-  title: string;
+  name: string;
   description: string;
-  ingredients: string[];
-  instructions: string[];
+  cuisine: string;
+  difficulty: string;
   prepTime: string;
   cookTime: string;
+  totalTime: string;
   servings: number;
-  cuisine: string;
-  dietaryInfo: string[];
+  ingredients: Ingredient[];
+  instructions: Instruction[];
+  nutrition: Nutrition;
+  tips: string[];
+  tags: string[];
+}
+
+export interface RecipeResponse {
+  recipe: Recipe;
+  success: boolean;
+  timestamp: string;
 }

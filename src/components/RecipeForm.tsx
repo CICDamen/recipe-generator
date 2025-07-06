@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -68,11 +67,11 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
     }
 
     const formData: RecipeFormData = {
-      ingredients,
-      cuisine_type: cuisineType,
-      dietary_restrictions: dietaryRestrictions,
-      cooking_time: cookingTime,
-      meal_type: mealType
+      ingredients: ingredients.join(", "),
+      cuisineType: cuisineType,
+      dietaryRestrictions: dietaryRestrictions.join(", ") || "none",
+      cookingTime: cookingTime,
+      mealType: mealType
     };
 
     onSubmit(formData);
