@@ -4,7 +4,7 @@ A modern, production-ready Vite + React + TypeScript app for generating and disp
 
 ## Features
 
-- Beautiful UI with Tailwind CSS and shadcn/ui
+- Beautiful UI with Tailwind CSS and shadcn/ui 
 - Recipe generation via n8n endpoint (configurable)
 - Docker-ready for easy deployment
 
