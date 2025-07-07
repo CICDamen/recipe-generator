@@ -2,6 +2,8 @@
 
 A modern, production-ready Vite + React + TypeScript app for generating and displaying recipes using LLMs.
 
+![Frontend](./images/app.png)
+
 ## Features
 
 - Beautiful UI with Tailwind CSS and shadcn/ui

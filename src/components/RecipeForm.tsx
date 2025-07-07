@@ -8,13 +8,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { X, Plus, ChefHat } from "lucide-react";
 import { RecipeFormData } from "@/types/recipe";
+import { useTranslation } from 'react-i18next';
 
 interface RecipeFormProps {
   onSubmit: (data: RecipeFormData) => void;
   isLoading: boolean;
+  language: string;
 }
 
-const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
+const RecipeForm = ({ onSubmit, isLoading, language }: RecipeFormProps) => {
+  const { t } = useTranslation();
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [currentIngredient, setCurrentIngredient] = useState("");
   const [cuisineType, setCuisineType] = useState("");
@@ -23,21 +26,21 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
   const [mealType, setMealType] = useState("");
 
   const cuisineOptions = [
-    "Italian", "Mexican", "Asian", "Mediterranean", "American", "Indian", 
-    "French", "Thai", "Japanese", "Chinese", "Greek", "Spanish", "Middle Eastern"
+    t('italian', 'Italian'), t('mexican', 'Mexican'), t('dutch', 'Dutch'), t('asian', 'Asian'), t('mediterranean', 'Mediterranean'), t('american', 'American'), t('indian', 'Indian'),
+    t('french', 'French'), t('thai', 'Thai'), t('japanese', 'Japanese'), t('chinese', 'Chinese'), t('greek', 'Greek'), t('spanish', 'Spanish'), t('middleEastern', 'Middle Eastern')
   ];
 
   const dietaryOptions = [
-    "Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Keto", "Paleo", 
-    "Low-Carb", "High-Protein", "Nut-Free", "Diabetic-Friendly"
+    t('vegetarian', 'Vegetarian'), t('vegan', 'Vegan'), t('glutenFree', 'Gluten-Free'), t('dairyFree', 'Dairy-Free'), t('keto', 'Keto'), t('paleo', 'Paleo'),
+    t('lowCarb', 'Low-Carb'), t('highProtein', 'High-Protein'), t('nutFree', 'Nut-Free'), t('diabeticFriendly', 'Diabetic-Friendly')
   ];
 
   const cookingTimeOptions = [
-    "Under 15 minutes", "15-30 minutes", "30-45 minutes", "45-60 minutes", "Over 1 hour"
+    t('under15', 'Under 15 minutes'), t('15to30', '15-30 minutes'), t('30to45', '30-45 minutes'), t('45to60', '45-60 minutes'), t('over1h', 'Over 1 hour')
   ];
 
   const mealTypeOptions = [
-    "Breakfast", "Lunch", "Dinner", "Snack", "Dessert", "Appetizer", "Brunch"
+    t('breakfast', 'Breakfast'), t('lunch', 'Lunch'), t('dinner', 'Dinner'), t('snack', 'Snack'), t('dessert', 'Dessert'), t('appetizer', 'Appetizer'), t('brunch', 'Brunch')
   ];
 
   const addIngredient = () => {
@@ -89,7 +92,7 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
       <CardHeader className="text-center">
         <CardTitle className="text-2xl font-bold text-gray-800 flex items-center justify-center gap-2">
           <ChefHat className="text-orange-500" />
-          Recipe Preferences
+          {t('generate')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -97,12 +100,12 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
           {/* Ingredients */}
           <div className="space-y-3">
             <Label htmlFor="ingredients" className="text-sm font-semibold text-gray-700">
-              Ingredients
+              {t('recipePlaceholder')}
             </Label>
             <div className="flex gap-2">
               <Input
                 id="ingredients"
-                placeholder="Enter an ingredient..."
+                placeholder={t('recipePlaceholder')}
                 value={currentIngredient}
                 onChange={(e) => setCurrentIngredient(e.target.value)}
                 onKeyPress={handleIngredientKeyPress}
@@ -142,10 +145,10 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
 
           {/* Cuisine Type */}
           <div className="space-y-2">
-            <Label className="text-sm font-semibold text-gray-700">Cuisine Type</Label>
+            <Label className="text-sm font-semibold text-gray-700">{t('cuisineType', 'Cuisine Type')}</Label>
             <Select value={cuisineType} onValueChange={setCuisineType}>
               <SelectTrigger>
-                <SelectValue placeholder="Select cuisine type" />
+                <SelectValue placeholder={t('selectCuisineType', 'Select cuisine type')} />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 {cuisineOptions.map((cuisine) => (
@@ -159,7 +162,7 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
 
           {/* Dietary Restrictions */}
           <div className="space-y-3">
-            <Label className="text-sm font-semibold text-gray-700">Dietary Restrictions</Label>
+            <Label className="text-sm font-semibold text-gray-700">{t('dietaryRestrictions', 'Dietary Restrictions')}</Label>
             <div className="grid grid-cols-2 gap-3">
               {dietaryOptions.map((option) => (
                 <div key={option} className="flex items-center space-x-2">
@@ -178,10 +181,10 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
 
           {/* Cooking Time */}
           <div className="space-y-2">
-            <Label className="text-sm font-semibold text-gray-700">Cooking Time</Label>
+            <Label className="text-sm font-semibold text-gray-700">{t('cookingTime', 'Cooking Time')}</Label>
             <Select value={cookingTime} onValueChange={setCookingTime}>
               <SelectTrigger>
-                <SelectValue placeholder="Select cooking time" />
+                <SelectValue placeholder={t('selectCookingTime', 'Select cooking time')} />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 {cookingTimeOptions.map((time) => (
@@ -195,10 +198,10 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
 
           {/* Meal Type */}
           <div className="space-y-2">
-            <Label className="text-sm font-semibold text-gray-700">Meal Type</Label>
+            <Label className="text-sm font-semibold text-gray-700">{t('mealType', 'Meal Type')}</Label>
             <Select value={mealType} onValueChange={setMealType}>
               <SelectTrigger>
-                <SelectValue placeholder="Select meal type" />
+                <SelectValue placeholder={t('selectMealType', 'Select meal type')} />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 {mealTypeOptions.map((meal) => (
@@ -215,7 +218,7 @@ const RecipeForm = ({ onSubmit, isLoading }: RecipeFormProps) => {
             className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold py-3 transition-all duration-300 transform hover:scale-[1.02]"
             disabled={isLoading || ingredients.length === 0 || !cuisineType || !cookingTime || !mealType}
           >
-            {isLoading ? "Generating Recipe..." : "Generate Recipe"}
+            {isLoading ? t('loading') : t('generate')}
           </Button>
         </form>
       </CardContent>
