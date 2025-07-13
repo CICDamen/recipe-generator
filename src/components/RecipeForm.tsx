@@ -24,6 +24,8 @@ const RecipeForm = ({ onSubmit, isLoading, language }: RecipeFormProps) => {
   const [dietaryRestrictions, setDietaryRestrictions] = useState<string[]>([]);
   const [cookingTime, setCookingTime] = useState("");
   const [mealType, setMealType] = useState("");
+  const [numberOfPersons, setNumberOfPersons] = useState(1);
+  const [remarks, setRemarks] = useState("");
 
   const cuisineOptions = [
     t('italian', 'Italian'), t('mexican', 'Mexican'), t('dutch', 'Dutch'), t('asian', 'Asian'), t('mediterranean', 'Mediterranean'), t('american', 'American'), t('indian', 'Indian'),
@@ -74,7 +76,9 @@ const RecipeForm = ({ onSubmit, isLoading, language }: RecipeFormProps) => {
       cuisineType: cuisineType,
       dietaryRestrictions: dietaryRestrictions.join(", ") || "none",
       cookingTime: cookingTime,
-      mealType: mealType
+      mealType: mealType,
+      numberOfPersons: numberOfPersons,
+      remarks: remarks,
     };
 
     onSubmit(formData);
@@ -211,6 +215,34 @@ const RecipeForm = ({ onSubmit, isLoading, language }: RecipeFormProps) => {
                 ))}
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Number of Persons */}
+          <div className="space-y-2">
+            <Label htmlFor="numberOfPersons" className="text-sm font-semibold text-gray-700">{t('numberOfPersons', 'Number of Persons')}</Label>
+            <Input
+              id="numberOfPersons"
+              type="number"
+              min={1}
+              max={20}
+              value={numberOfPersons}
+              onChange={e => setNumberOfPersons(Number(e.target.value))}
+              className="w-32"
+            />
+          </div>
+
+          {/* Additional Remarks */}
+          <div className="space-y-2">
+            <Label htmlFor="remarks" className="text-sm font-semibold text-gray-700">{t('remarks', 'Additional Remarks')}</Label>
+            <textarea
+              id="remarks"
+              maxLength={200 * 6} // ~200 words (assuming avg 6 chars/word)
+              value={remarks}
+              onChange={e => setRemarks(e.target.value)}
+              className="w-full min-h-[80px] p-2 border border-gray-300 rounded-md"
+              placeholder={t('remarksPlaceholder', 'Any extra info, allergies, preferences, etc. (max 200 words)')}
+            />
+            <div className="text-xs text-gray-500 text-right">{remarks.trim().split(/\s+/).filter(Boolean).length} / 200 {t('words', 'words')}</div>
           </div>
 
           <Button

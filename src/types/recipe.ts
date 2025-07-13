@@ -4,6 +4,8 @@ export interface RecipeFormData {
   dietaryRestrictions: string;
   cookingTime: string;
   mealType: string;
+  numberOfPersons: number;
+  remarks: string;
 }
 
 export interface Ingredient {

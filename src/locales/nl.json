@@ -62,5 +62,9 @@
   "snack": "Snack",
   "dessert": "Nagerecht",
   "appetizer": "Voorgerecht",
-  "brunch": "Brunch"
+  "brunch": "Brunch",
+  "numberOfPersons": "Aantal personen",
+  "remarks": "Aanvullende opmerkingen",
+  "remarksPlaceholder": "Extra info, allergieën, voorkeuren, etc. (max 200 woorden)",
+  "words": "woorden"
 } 

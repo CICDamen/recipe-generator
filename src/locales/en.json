@@ -62,5 +62,9 @@
   "snack": "Snack",
   "dessert": "Dessert",
   "appetizer": "Appetizer",
-  "brunch": "Brunch"
+  "brunch": "Brunch",
+  "numberOfPersons": "Number of Persons",
+  "remarks": "Additional Remarks",
+  "remarksPlaceholder": "Any extra info, allergies, preferences, etc. (max 200 words)",
+  "words": "words"
 } 
