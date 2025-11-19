@@ -1,7 +1,12 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import RecipeForm from "@/components/RecipeForm";
 import RecipeCard from "@/components/RecipeCard";
 import { Recipe, RecipeFormData, RecipeResponse } from "@/types/recipe";
+import { useRecipeStorage } from "@/hooks/use-recipe-storage";
+import { Button } from "@/components/ui/button";
+import { BookOpen, Save } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
 
 // Configuration for n8n endpoint using environment variables
@@ -16,6 +21,9 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const { saveRecipe } = useRecipeStorage();
+  const { toast } = useToast();
   const recipeCardRef = useRef<HTMLDivElement>(null);
 
   const handleGenerateRecipe = async (formData: RecipeFormData) => {
@@ -70,16 +78,36 @@ const Index = () => {
     }
   };
 
+  const handleSaveRecipe = () => {
+    if (recipe) {
+      saveRecipe(recipe, 'generated');
+      toast({
+        title: t('recipeSaved', 'Recipe Saved!'),
+        description: t('recipeSavedDesc', 'Recipe has been added to your library'),
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-            {t('recipeGeneratorTitle', 'Recipe Generator')}
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            {t('recipeGeneratorDesc', 'Create delicious recipes tailored to your ingredients, preferences, and dietary needs')}
-          </p>
+        <div className="flex items-center justify-between mb-8">
+          <div className="text-center flex-1">
+            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+              {t('recipeGeneratorTitle', 'Recipe Generator')}
+            </h1>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              {t('recipeGeneratorDesc', 'Create delicious recipes tailored to your ingredients, preferences, and dietary needs')}
+            </p>
+          </div>
+          <Button
+            onClick={() => navigate('/library')}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <BookOpen className="h-4 w-4" />
+            {t('myRecipes', 'My Recipes')}
+          </Button>
         </div>
 
         {error && (
@@ -96,7 +124,20 @@ const Index = () => {
           </div>
           
           <div className="order-1 lg:order-2" ref={recipeCardRef}>
-            <RecipeCard recipe={recipe} isLoading={isLoading} />
+            <div className="space-y-4">
+              {recipe && (
+                <div className="flex justify-end">
+                  <Button
+                    onClick={handleSaveRecipe}
+                    className="bg-green-600 hover:bg-green-700 flex items-center gap-2"
+                  >
+                    <Save className="h-4 w-4" />
+                    {t('saveToLibrary', 'Save to Library')}
+                  </Button>
+                </div>
+              )}
+              <RecipeCard recipe={recipe} isLoading={isLoading} />
+            </div>
           </div>
         </div>
       </div>

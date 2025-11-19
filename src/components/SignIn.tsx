@@ -18,7 +18,8 @@ export default function SignIn({ onSignIn }: SignInProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === USERNAME && password === PASSWORD) {
+    // Allow sign-in if credentials are not configured OR if they match
+    if ((!USERNAME && !PASSWORD) || (username === USERNAME && password === PASSWORD)) {
       setError("");
       onSignIn();
     } else {
