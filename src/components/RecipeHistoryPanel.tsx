@@ -16,7 +16,7 @@ const RecipeHistoryPanel = ({ recipes, selectedIndex, onSelect, onNewRecipe }: R
   if (recipes.length === 0) return null;
 
   return (
-    <div className="mb-4">
+    <div className="sticky top-4 z-10 mb-4 bg-orange-50/95 backdrop-blur-sm rounded-xl px-3 pt-3 shadow-sm">
       <div className="flex items-center justify-between mb-2">
         <h3 className="text-sm font-medium text-gray-600 flex items-center gap-1">
           <ChefHat className="h-4 w-4" />
