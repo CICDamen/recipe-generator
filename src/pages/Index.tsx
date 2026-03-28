@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import RecipeForm from "@/components/RecipeForm";
 import RecipeCard from "@/components/RecipeCard";
+import RecipeHistoryPanel from "@/components/RecipeHistoryPanel";
 import { Recipe, RecipeFormData, RecipeResponse } from "@/types/recipe";
 import { useTranslation } from 'react-i18next';
 
@@ -11,16 +12,35 @@ const N8N_CONFIG = {
   password: import.meta.env.VITE_N8N_PASSWORD
 };
 
+const MAX_HISTORY = 3;
+
+const loadHistory = (): Recipe[] => {
+  try {
+    const stored = localStorage.getItem('recipeHistory');
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.error('Failed to load recipe history from localStorage:', error);
+    return [];
+  }
+};
+
+const saveHistory = (recipes: Recipe[]) => {
+  localStorage.setItem('recipeHistory', JSON.stringify(recipes));
+};
+
 const Index = () => {
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [recipeHistory, setRecipeHistory] = useState<Recipe[]>(loadHistory);
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const recipeCardRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const currentRecipe = recipeHistory[selectedIndex] ?? null;
 
   const handleGenerateRecipe = async (formData: RecipeFormData) => {
     setIsLoading(true);
-    setRecipe(null);
     setError(null);
 
     try {
@@ -44,7 +64,7 @@ const Index = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
+      const data: RecipeResponse = await response.json();
       // Expecting data to be an object with recipe, success, and timestamp fields
       if (!data || typeof data !== 'object') {
         throw new Error('Invalid response format from API');
@@ -55,7 +75,12 @@ const Index = () => {
       if (!data.recipe) {
         throw new Error('No recipe data received from API');
       }
-      setRecipe(data.recipe);
+
+      const newHistory = [data.recipe, ...recipeHistory].slice(0, MAX_HISTORY);
+      setRecipeHistory(newHistory);
+      saveHistory(newHistory);
+      setSelectedIndex(0);
+
       // Scroll to RecipeCard on mobile
       setTimeout(() => {
         if (window.innerWidth < 1024 && recipeCardRef.current) {
@@ -67,6 +92,12 @@ const Index = () => {
       setError(error instanceof Error ? error.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleNewRecipe = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -91,12 +122,18 @@ const Index = () => {
         )}
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1" ref={formRef}>
             <RecipeForm onSubmit={handleGenerateRecipe} isLoading={isLoading} language={i18n.language} />
           </div>
           
           <div className="order-1 lg:order-2" ref={recipeCardRef}>
-            <RecipeCard recipe={recipe} isLoading={isLoading} />
+            <RecipeHistoryPanel
+              recipes={recipeHistory}
+              selectedIndex={selectedIndex}
+              onSelect={setSelectedIndex}
+              onNewRecipe={handleNewRecipe}
+            />
+            <RecipeCard recipe={currentRecipe} isLoading={isLoading} />
           </div>
         </div>
       </div>

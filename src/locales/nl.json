@@ -66,5 +66,7 @@
   "numberOfPersons": "Aantal personen",
   "remarks": "Aanvullende opmerkingen",
   "remarksPlaceholder": "Extra info, allergieën, voorkeuren, etc. (max 200 woorden)",
-  "words": "woorden"
+  "words": "woorden",
+  "recentRecipes": "Recente Recepten",
+  "newRecipe": "Nieuw Recept"
 } 
