@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import RecipeForm from "@/components/RecipeForm";
 import RecipeCard from "@/components/RecipeCard";
-import RecipeHistoryPanel from "@/components/RecipeHistoryPanel";
 import { Recipe, RecipeFormData, RecipeResponse } from "@/types/recipe";
 import { useTranslation } from 'react-i18next';
 
@@ -12,7 +11,7 @@ const N8N_CONFIG = {
   password: import.meta.env.VITE_N8N_PASSWORD
 };
 
-const MAX_HISTORY = 3;
+const MAX_HISTORY = 10;
 
 const loadHistory = (): Recipe[] => {
   try {
@@ -30,14 +29,12 @@ const saveHistory = (recipes: Recipe[]) => {
 
 const Index = () => {
   const [recipeHistory, setRecipeHistory] = useState<Recipe[]>(loadHistory);
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const recipeCardRef = useRef<HTMLDivElement>(null);
-  const formRef = useRef<HTMLDivElement>(null);
 
-  const currentRecipe = recipeHistory[selectedIndex] ?? null;
+  const currentRecipe = recipeHistory[0] ?? null;
 
   const handleGenerateRecipe = async (formData: RecipeFormData) => {
     setIsLoading(true);
@@ -79,7 +76,6 @@ const Index = () => {
       const newHistory = [data.recipe, ...recipeHistory].slice(0, MAX_HISTORY);
       setRecipeHistory(newHistory);
       saveHistory(newHistory);
-      setSelectedIndex(0);
 
       // Scroll to RecipeCard on mobile
       setTimeout(() => {
@@ -92,12 +88,6 @@ const Index = () => {
       setError(error instanceof Error ? error.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleNewRecipe = () => {
-    if (formRef.current) {
-      formRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -122,17 +112,11 @@ const Index = () => {
         )}
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
-          <div className="order-2 lg:order-1" ref={formRef}>
+          <div className="order-2 lg:order-1">
             <RecipeForm onSubmit={handleGenerateRecipe} isLoading={isLoading} language={i18n.language} />
           </div>
           
           <div className="order-1 lg:order-2" ref={recipeCardRef}>
-            <RecipeHistoryPanel
-              recipes={recipeHistory}
-              selectedIndex={selectedIndex}
-              onSelect={setSelectedIndex}
-              onNewRecipe={handleNewRecipe}
-            />
             <RecipeCard recipe={currentRecipe} isLoading={isLoading} />
           </div>
         </div>

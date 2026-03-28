@@ -68,5 +68,9 @@
   "remarksPlaceholder": "Extra info, allergieën, voorkeuren, etc. (max 200 woorden)",
   "words": "woorden",
   "recentRecipes": "Recente Recepten",
-  "newRecipe": "Nieuw Recept"
+  "newRecipe": "Nieuw Recept",
+  "home": "Home",
+  "recentRecipesDesc": "Blader door je recent gegenereerde recepten en bekijk ze in detail",
+  "noRecipesYet": "Nog geen recepten",
+  "noRecipesYetDesc": "Genereer een recept op de startpagina om het hier te zien"
 } 

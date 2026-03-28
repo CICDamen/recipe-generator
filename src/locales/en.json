@@ -68,5 +68,9 @@
   "remarksPlaceholder": "Any extra info, allergies, preferences, etc. (max 200 words)",
   "words": "words",
   "recentRecipes": "Recent Recipes",
-  "newRecipe": "New Recipe"
+  "newRecipe": "New Recipe",
+  "home": "Home",
+  "recentRecipesDesc": "Browse your last generated recipes and view them in full detail",
+  "noRecipesYet": "No recipes yet",
+  "noRecipesYetDesc": "Generate a recipe on the home page to see it here"
 } 
