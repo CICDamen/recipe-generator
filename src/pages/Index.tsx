@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import RecipeForm from "@/components/RecipeForm";
 import RecipeCard from "@/components/RecipeCard";
 import { Recipe, RecipeFormData, RecipeResponse } from "@/types/recipe";
@@ -33,8 +34,20 @@ const Index = () => {
   const [error, setError] = useState<string | null>(null);
   const { t, i18n } = useTranslation();
   const recipeCardRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
-  const currentRecipe = recipeHistory[0] ?? null;
+  const selectedIndex = Math.min(
+    (location.state as { recipeIndex?: number } | null)?.recipeIndex ?? 0,
+    Math.max(recipeHistory.length - 1, 0)
+  );
+  const currentRecipe = recipeHistory[selectedIndex] ?? null;
+  const initialState = useRef(location.state);
+
+  useEffect(() => {
+    if (initialState.current) {
+      window.history.replaceState(null, '');
+    }
+  }, []);
 
   const handleGenerateRecipe = async (formData: RecipeFormData) => {
     setIsLoading(true);
