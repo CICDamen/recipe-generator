@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChefHat, Globe, BookOpen, Home, Check } from "lucide-react";
+import { Globe, BookOpen, Home, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -21,23 +21,18 @@ const NavBar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-orange-100 shadow-sm">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 font-bold text-gray-800 hover:text-orange-600 transition-colors">
-          <ChefHat className="h-6 w-6 text-orange-500" />
-          <span className="text-lg">{t('recipeGeneratorTitle', 'Recipe Generator')}</span>
+        <Link to="/">
+          <Button
+            variant={location.pathname === "/" ? "default" : "ghost"}
+            size="sm"
+            className={location.pathname === "/" ? "bg-orange-500 hover:bg-orange-600 text-white" : "text-gray-600 hover:text-orange-600"}
+          >
+            <Home className="h-4 w-4 mr-1" />
+            {t('home', 'Home')}
+          </Button>
         </Link>
 
         <div className="flex items-center gap-2">
-          <Link to="/">
-            <Button
-              variant={location.pathname === "/" ? "default" : "ghost"}
-              size="sm"
-              className={location.pathname === "/" ? "bg-orange-500 hover:bg-orange-600 text-white" : "text-gray-600 hover:text-orange-600"}
-            >
-              <Home className="h-4 w-4 mr-1" />
-              {t('home', 'Home')}
-            </Button>
-          </Link>
-
           <Link to="/recipes">
             <Button
               variant={location.pathname === "/recipes" ? "default" : "ghost"}
@@ -51,9 +46,8 @@ const NavBar = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-gray-600 hover:text-orange-600">
-                <Globe className="h-4 w-4 mr-1" />
-                {LANGUAGES.find(l => l.code === i18n.language)?.label ?? "Language"}
+              <Button variant="ghost" size="icon" aria-label={LANGUAGES.find(l => l.code === i18n.language)?.label ?? "Select language"} className="text-gray-600 hover:text-orange-600">
+                <Globe className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
