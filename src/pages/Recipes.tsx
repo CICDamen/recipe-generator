@@ -1,16 +1,9 @@
-import { useState } from "react";
 import { Recipe } from "@/types/recipe";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { ChefHat, Clock, Users, Activity } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import RecipeCard from "@/components/RecipeCard";
 
 const loadHistory = (): Recipe[] => {
   try {
@@ -23,8 +16,8 @@ const loadHistory = (): Recipe[] => {
 
 const Recipes = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const recipes = loadHistory();
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
@@ -54,7 +47,7 @@ const Recipes = () => {
               <Card
                 key={`${recipe.name}-${index}`}
                 className="cursor-pointer bg-white/80 backdrop-blur-sm shadow-md border-0 hover:shadow-xl hover:-translate-y-1 transition-all duration-200"
-                onClick={() => setSelectedRecipe(recipe)}
+                onClick={() => navigate("/", { state: { recipeIndex: index } })}
               >
                 <CardHeader className="pb-3">
                   <CardTitle className="text-xl font-bold text-gray-800 leading-tight">
@@ -102,17 +95,6 @@ const Recipes = () => {
           </div>
         )}
       </div>
-
-      <Dialog open={!!selectedRecipe} onOpenChange={open => { if (!open) setSelectedRecipe(null); }}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="sr-only">
-              {selectedRecipe?.name}
-            </DialogTitle>
-          </DialogHeader>
-          {selectedRecipe && <RecipeCard recipe={selectedRecipe} isLoading={false} />}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
