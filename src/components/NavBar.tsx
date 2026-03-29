@@ -46,9 +46,8 @@ const NavBar = () => {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-gray-600 hover:text-orange-600">
-                <Globe className="h-4 w-4 mr-1" />
-                {LANGUAGES.find(l => l.code === i18n.language)?.label ?? "Language"}
+              <Button variant="ghost" size="icon" aria-label={LANGUAGES.find(l => l.code === i18n.language)?.label ?? "Select language"} className="text-gray-600 hover:text-orange-600">
+                <Globe className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
