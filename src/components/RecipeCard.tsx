@@ -107,7 +107,7 @@ const RecipeCard = ({ recipe, isLoading }: RecipeCardProps) => {
           </h3>
           <div className="grid gap-3">
             {recipe.ingredients.map((ingredient, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+              <div key={index} className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
                 <input
                   type="checkbox"
                   checked={checkedIngredients.has(index)}
@@ -198,7 +198,7 @@ const RecipeCard = ({ recipe, isLoading }: RecipeCardProps) => {
           </h3>
           <div className="space-y-3">
             {recipe.tips.map((tip, index) => (
-              <div key={index} className="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg">
+              <div key={index} className="flex items-start gap-3 p-4 bg-yellow-50 rounded-lg">
                 <Lightbulb className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
                 <p className="text-gray-700 text-sm leading-relaxed">{tip}</p>
               </div>
