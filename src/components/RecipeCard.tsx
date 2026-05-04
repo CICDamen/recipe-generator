@@ -59,7 +59,7 @@ const RecipeCard = ({ recipe, isLoading }: RecipeCardProps) => {
   return (
     <Card className="w-full bg-white/80 backdrop-blur-sm shadow-xl border-0 animate-fade-in">
       <CardHeader>
-        <CardTitle className="text-3xl font-bold text-gray-800 mb-2">
+        <CardTitle className="text-3xl font-bold text-gray-800 mb-2 break-words">
           {recipe.name}
         </CardTitle>
         <p className="text-gray-600 text-lg leading-relaxed">{recipe.description}</p>

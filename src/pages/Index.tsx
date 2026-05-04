@@ -125,11 +125,11 @@ const Index = () => {
         )}
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
-          <div className="order-2 lg:order-1">
+          <div className="order-2 lg:order-1 min-w-0">
             <RecipeForm onSubmit={handleGenerateRecipe} isLoading={isLoading} language={i18n.language} />
           </div>
-          
-          <div className="order-1 lg:order-2" ref={recipeCardRef}>
+
+          <div className="order-1 lg:order-2 min-w-0" ref={recipeCardRef}>
             <RecipeCard recipe={currentRecipe} isLoading={isLoading} />
           </div>
         </div>
