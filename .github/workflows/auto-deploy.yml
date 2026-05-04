@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Trigger Coolify deploy
         run: |
-          curl -X GET "http://localhost:8000/api/v1/deploy?uuid=${{ secrets.COOLIFY_DEPLOY_URL }}&force=false" \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
+          curl -X GET "http://localhost:8000/api/v1/deploy?uuid=${{ secrets.COOLIFY_APP_UUID }}&force=false" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
             --fail
