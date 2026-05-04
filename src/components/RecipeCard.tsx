@@ -78,22 +78,22 @@ const RecipeCard = ({ recipe, isLoading }: RecipeCardProps) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-6 mt-6 text-sm text-gray-600">
-          <div className="flex items-center gap-1">
-            <Timer className="h-4 w-4" />
-            <span>{t('prep', 'Prep')}: {recipe.prepTime}</span>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mt-6 text-sm text-gray-600 sm:flex sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-2">
+          <div className="flex items-center gap-1 min-w-0">
+            <Timer className="h-4 w-4 shrink-0" />
+            <span className="truncate">{t('prep', 'Prep')}: {recipe.prepTime}</span>
           </div>
-          <div className="flex items-center gap-1">
-            <Clock className="h-4 w-4" />
-            <span>{t('cook', 'Cook')}: {recipe.cookTime}</span>
+          <div className="flex items-center gap-1 min-w-0">
+            <Clock className="h-4 w-4 shrink-0" />
+            <span className="truncate">{t('cook', 'Cook')}: {recipe.cookTime}</span>
           </div>
-          <div className="flex items-center gap-1">
-            <Activity className="h-4 w-4" />
-            <span>{t('total', 'Total')}: {recipe.totalTime}</span>
+          <div className="flex items-center gap-1 min-w-0">
+            <Activity className="h-4 w-4 shrink-0" />
+            <span className="truncate">{t('total', 'Total')}: {recipe.totalTime}</span>
           </div>
-          <div className="flex items-center gap-1">
-            <Users className="h-4 w-4" />
-            <span>{t('serves', 'Serves')} {recipe.servings}</span>
+          <div className="flex items-center gap-1 min-w-0">
+            <Users className="h-4 w-4 shrink-0" />
+            <span className="truncate">{t('serves', 'Serves')} {recipe.servings}</span>
           </div>
         </div>
       </CardHeader>
