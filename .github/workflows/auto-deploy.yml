@@ -1,22 +1,16 @@
-name: Deploy to Coolify
+name: Deploy
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
-    inputs:
-      deploy:
-        description: "Deploy to Coolify"
-        required: false
-        default: "false"
+    branches:
+      - main
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Deploy to Coolify
+      - name: Trigger Coolify deploy
         run: |
-          curl -X POST \
-            -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            ${{ secrets.COOLIFY_DEPLOY_URL }}
+          curl -X GET "http://localhost:8000/api/v1/deploy?uuid=${{ secrets.COOLIFY_APP_UUID }}&force=false" \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_TOKEN }}" \
+            --fail
